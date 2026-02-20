@@ -2,7 +2,7 @@
 # with all necessary raw data files.
 
 # Create raw data folder
-dir.create("data/raw")
+dir.create("data/raw", showWarnings = FALSE, recursive = TRUE)
 
 # Download data files
 
