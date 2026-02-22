@@ -1,0 +1,155 @@
+---
+title: "Group project Dprep"
+output: pdf_document
+date: "2026-02-05"
+---
+
+# Setup 
+
+In this section, all of the needed packages will be downloaded/ refreshed.
+
+```{r setup, include=FALSE}
+
+#**echo=TRUE** means that the R code you type here is going to be shown on the knitted file, unless you specify otherwise explicitly.
+#knitr::opts_chunk$set(echo = TRUE)
+
+# this code remove all the previous loaded code and data 
+rm(list=ls(all=TRUE))
+
+##install.packages("dplyr")
+##install.packages("tidyverse")
+##install.packages("rmarkdown")
+##install.packages("broom")
+##install.packages("ggplot2")
+##install.packages("tinytex")
+
+#after installing, you need to load the packages, and you can use the library code to load them. 
+library(dplyr)
+library(tidyverse)
+library(rmarkdown)
+library(broom)
+library(ggplot2)
+
+```
+
+# Loading Dataset
+
+In this part, all the needed datasets will be loaded from your own storage folder.
+
+```{r loading dataset}
+#ratings <- read_tsv("https://datasets.imdbws.com/title.ratings.tsv.gz")
+#principals <- read_tsv("https://datasets.imdbws.com/title.principals.tsv.gz")
+#episode <- read_tsv("https://datasets.imdbws.com/title.episode.tsv.gz")
+#crew <- read_tsv("https://datasets.imdbws.com/title.crew.tsv.gz")
+#basics <- read_tsv("https://datasets.imdbws.com/title.basics.tsv.gz")
+#akas <- read_tsv("https://datasets.imdbws.com/title.akas.tsv.gz")
+#name <- read_tsv("https://datasets.imdbws.com/name.basics.tsv.gz")
+```
+
+# Checking datasets
+
+In this section, you can check all of the loaded datasets if thet look normal.
+
+```{r Checking datasets}
+#summary(ratings)
+#view(ratings)
+#summary(principals)
+#view(principals)
+#summary(episode)
+#view(episode)
+#summary(crew)
+#view(crew)
+#summary(basics)
+#view(basics)
+#summary(akas)
+#view(akas)
+#summary(name)
+#view(name)
+
+```
+
+
+# 1. Research Question:
+
+**To what extent does movie runtime predict audience ratings, and how is this relationship moderated by genre differences, using a large-scale IMDb dataset?**
+
+
+All variables + explenation of the variable by IMDB (https://developer.imdb.com/non-commercial-datasets/):
+
+
+- Movie running time (IV) - *primary runtime of the title, in minutes*
+
+- Audience rating (DV) - *weighted average of all the individual user ratings*
+
+- Genre (Categorical Moderator) - *includes up to three genres associated with the title*
+
+- Title type (control variable) - *the type/format of the title (e.g. movie, short, tvseries, tvepisode, video, etc)*
+
+
+
+## 1.1 Subresearchquestions:
+
+1.  Do films in certain genres show a significantly higher audience rating as runtime increases compared to other genres?
+
+2.  Are there genres in which shorter films receive significantly lower audience ratings compared to longer films?
+
+3.  Specifically for comedy films, does a longer runtime significantly decrease audience ratings?
+
+
+# 2. Motivation researchquestion:
+
+The movie industry continuously tries to understand what factors influence audience ratings, as they play a very important role in determining commercial success and popularity. One characteristic that might impact viewer’s perceptions is running time. Longer films can allow for more extensive storytelling and character development, however they may also demand higher mental effort and time commitment from the audience. As a consequence, the relationship between running time and audience ratings remains unclear and worth looking into.
+
+Secondly, audience expectations on time might differ between movie genres. For instance, viewers might expect longer runtimes in genres like drama, considering the complexity of the storyline, whereas fast paced runtimes might be expected for low cognitive effort genres, such as comedies. Considering this, the effect of runtime on ratings in most likely not uniform, and it might depend on viewing preferences.
+
+## 2.1 Practical relevance
+
+The research has practical relevance for producers, filmmakers, editors and streaming platforms. Investigating this relationship can provide insights into how structure of movies and characteristics can align with viewer expectations.
+
+## 2.2 Method
+
+To examine the relationship between movie runtime and audience ratings, a Multiple Linear Regression model will be estimated. This method is appropriate because the dependent variable, audience rating, is continuous and allows for linear estimation of marginal effects.
+
+Multiple regression enables the simultaneous inclusion of runtime, genre, and control variables such as title type. Importantly, to test whether the effect of runtime differs across genres, interaction terms between runtime and genre will be included. This allows the slope of runtime to vary by genre, which directly tests the moderating role of genre.
+
+Compared to simpler methods such as correlation analysis or ANOVA, multiple regression provides greater flexibility, allows for control variables, and enables formal hypothesis testing of interaction effects.
+
+The general model specification is:
+
+**Ratingᵢ = β₀ + β₁(Runtimeᵢ) + β₂(Genreᵢ) + β₃(Runtimeᵢ × Genreᵢ) + εᵢ**
+
+Where:
+
+β₁ captures the average effect of runtime,
+β₂ captures the average difference in ratings between genres (relative to the reference genre).
+β₃ captures how this effect differs across genres.
+
+The model assumes linearity, independence of observations, homoscedasticity, and normally distributed residuals. These assumptions will be evaluated during the analysis.
+
+### 2.2.1 Workflow Documentation
+
+The analysis follows a structured workflow. First, the relevant datasets are loaded and merged. Second, the dataset is filtered to ensure comparability. Third, observations with missing values in runtime or ratings are removed.
+
+Subsequently, genre categories are prepared for interaction analysis. Finally, a multiple linear regression model including interaction terms between runtime and genre is estimated.
+
+Each step is documented and executed sequentially to ensure transparency and reproducibility.
+
+## 2.3 Presentation of Results
+
+The results of this study will be presented in a clear and user-friendly way within the RMarkdown document. Specifically:
+
+- Text will explain the research question, methodology, and interpretation of results.
+
+- Tables will summarize descriptive statistics, regression coefficients, and interaction effects.
+
+- Figures will visually show the distribution of runtime and audience ratings, as well as interactions between runtime and genres.
+
+This combination of text, tables, and figures ensures that the findings are easy to understand and interpretable. Consistent formatting with clear headings and captions will be applied to improve readability and overall usefulness of the report.
+
+## 2.4 Deployment of Results
+
+The final report will be deployed as a reproducible PDF document generated through Github. This format ensures transparency and replicability, as all data preparation, analysis, and visualizations are directly embedded in the document.
+
+The report will include regression tables, graphical visualizations of interaction effects, and clear interpretations of coefficients. By integrating code and output within the same document, the analysis remains fully reproducible and transparent.
+
+The RMarkdown reports will be rendered as publication-ready PDF or HTML documents. To ensure clarity and readability, any non-essential code chunks and warning messages will be hidden using *echo=FALSE* and *warning=FALSE* options. This approach keeps the focus on the results and interpretation, rather than on intermediate code or messages, while maintaining full reproducibility of the analysis
