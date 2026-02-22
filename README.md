@@ -11,8 +11,7 @@
 *(Describe the purpose of this project)*
 
 The goal of this project is to examine the relationship between movie running time and audience ratings, 
-and how this relationship may differ between movie genres. 
-
+and how this relationship may differ between a selection of movie genres. 
 
 
 ## Motivation
@@ -27,23 +26,21 @@ development, however they may also demand higher mental effort and time commitme
 As a consequence, the relationship between running time and audience ratings remains unclear and worth
 looking into.
 
-Secondly, audience expectations on time might differ between movie genres. For instance, viewers might
+Furthermore, audience expectations on time might differ between movie genres. For instance, viewers might
 expect longer runtimes in genres like drama, considering the complexity of the storyline, whereas fast paced
 runtimes might be expected for low cognitive effort genres, such as comedies. Considering this, the effect of
 runtime on ratings in most likely not uniform, and it might depend on viewing preferences.
 
+<br>
 
 **Based on this, the main research question that will be examined is described as:**
 
-- What is the relationship between running time (IV) and audience ratings (DV) in movies, and
-how does this differ between movie genres?
-
-
+*- What is the relationship between running time (IV) and audience ratings (DV) in movies, and how does this differ between movie genres?*
 
 
 ## Data
 
-- What dataset(s) did you use? How was it obtained?
+*What dataset(s) did you use? How was it obtained?*
 
 To examine the research question, two publicly available datasets from the IMBD website
 were utilized.
@@ -52,13 +49,16 @@ The data sets used:
 - https://datasets.imdbws.com/title.basics.tsv.gz  
 - https://datasets.imdbws.com/title.ratings.tsv.gz  
 
+<br>
 
-- How many observations are there in the final dataset?
+*How many observations are there in the final dataset?*
 
-...  
+Approximately 140.000 after filtering for movies, and NA's
+for genre's and audience ratings.
 
+<br>
 
-- Include a table of variable description/operstionalisation. 
+*Include a table of variable description/operstionalisation.* 
 
 
 The main variables that will be examined:
@@ -66,18 +66,29 @@ The main variables that will be examined:
 • Movie running time (IV) - primary runtime of the title, in minutes  
 • Audience rating (DV) - weighted average of all the individual user ratings  
 • Genre (Categorical Moderator) - includes up to three genres associated with the title  
-*• Title type (control variable) - the type/format of the title (e.g. movie, short, tvseries, tvepisode, video, etc)*  
+  
 
 
 ## Method
 
 - What methods do you use to answer your research question?
 
-Multiple Linear Regression (MLR)
+For data preparation, datawrangling principles were administered. Firstly the dataset title.basics.tsv.gz 
+was filtered to only include movie titles, thereby excluding other included film-types in the dataset such 
+as tv-shows and short-films. Additionally, the dataset was structured in ascending order of release year.  
+
+Next, both datasets were merged, ...
+
+
+As for the method of analysis, Multiple Linear Regression (MLR) with interaction terms will be used.
+
+<br>
 
 - Provide justification for why it is the most suitable. 
 
-MLR is an appropriate method for a continuous IV and DV, with genres as a moderator.
+MLR is an appropriate analysis method for a continuous IV and DV, allowing examination of interaction
+terms for movie genre as a moderator.
+
 
 
 ## Preview of Findings 
@@ -92,22 +103,51 @@ MLR is an appropriate method for a continuous IV and DV, with genres as a modera
 
 ## Repository Overview 
 
-**Include a tree diagram that illustrates the repository structure*
+*Include a tree diagram that illustrates the repository structure*
+
+
+```text
+team-projects-team-4/
+│
+├── data/                    # Data-related scripts and raw data handling
+│   └── download-data.R      # Script to download and store raw datasets
+│
+├── reporting/               # Final report and application files
+│   ├── report.Rmd           # Main analysis report
+│   └── start_app.R          # Possible ption to run the report using a Shiny app
+│
+├── src/                     # Source code
+│   ├── analysis/            # Statistical modeling and analysis scripts
+│   │   └── analysis.R       # Main analysis script
+│   │
+│   └── data-preparation/    # Data cleaning and preparation scripts
+│       └── data-cleaning.R  # Data cleaning script
+│
+├── README.md                # Project documentation
+├── README.html              # Rendered version of README
+├── makefile                 # Workflow automation
+├── .gitignore               # Files excluded from version control
+└── team-projects-team-4.Rproj  # RStudio project file
+```
+
+
 
 ## Dependencies 
 
 *Explain any tools or packages that need to be installed to run this workflow.*
 
-For now:
+The main packages needed to run this workflow:
 
-library(readr)  
-library(tidyverse)  
+- library(readr)  
+- library(tidyverse)  
 
 ## Running Instructions 
 
 *Provide step-by-step instructions that have to be followed to run this workflow.*
 
 ...
+
+
 
 ## About 
 
