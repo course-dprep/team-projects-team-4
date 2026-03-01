@@ -6,19 +6,13 @@
 > Feel free to delete this text.
 
 
-# The longer the better: the relationship between film length and audience scores between genres
-
-*(Describe the purpose of this project)*
+# Does movie length matter? The relationship between film length and audience score between genres.
 
 The goal of this project is to examine the relationship between movie running time and audience ratings, 
 and how this relationship may differ between a selection of movie genres. 
 
 
 ## Motivation
-*Provide background/motivation for your project*
-
-*Mention your research question*
-
 The movie industry continuously tries to understand what factors influence audience ratings, as they play a
 very important role in determining commercial success and popularity. One characteristic that might impact
 viewer’s perceptions is running time. Longer films can allow for more extensive storytelling and character
@@ -37,14 +31,9 @@ runtime on ratings in most likely not uniform, and it might depend on viewing pr
 
 *- What is the relationship between running time (IV) and audience ratings (DV) in movies, and how does this differ between movie genres?*
 
-
 ## Data
-
-- What dataset(s) did you use? How was it obtained?
-<br>
-
 To examine the research question, two publicly available datasets from the IMBD website
-were utilized.
+were utilized and later merged.
 
 The data sets used:  
 - https://datasets.imdbws.com/title.basics.tsv.gz  
@@ -52,10 +41,7 @@ The data sets used:
 
 <br>
 
-- How many observations are there in the final dataset?
-
-
-The merged dataset contains approximately 140.000 observations after filtering for movies, their running time (<=360) and number of votes (>100),
+After merging, the final dataset contains approximately 140.000 observations after filtering for movies, their running time (<=360 minutes) and number of votes (>100),
 where missing values for genre's and audience ratings were filtered out.
 
 <br>
@@ -70,10 +56,7 @@ The main variables that will be examined:
 • Genre (Categorical Moderator) - includes up to three genres associated with the title  
   
 
-
 ## Method
-
-- What methods do you use to answer your research question?
 
 For data preparation, datawrangling principles were administered. Firstly the dataset title.basics.tsv.gz 
 was filtered to only include movie titles, thereby excluding other included film-types in the dataset such 
@@ -83,17 +66,11 @@ This merged dataset was structured in ascending order of release year.
 Moreover, next to flitering for missing values for genre and audience scores, the observations were filtered to
 have a running time of up to 360 minutes and a minimum number of 100 recorded audience votes.
 
-
-As for the method of analysis, Multiple Linear Regression (MLR) with interaction terms will be used.
-
 <br>
 
-- Provide justification for why it is the most suitable. 
-
+As for the method of analysis, Multiple Linear Regression (MLR) with interaction terms will be used. 
 MLR is an appropriate analysis method for a continuous IV and DV, allowing examination of interaction
 terms for movie genre as a moderator.
-
-
 
 ## Preview of Findings 
 - Describe the gist of your findings (save the details for the final paper!)
@@ -106,9 +83,6 @@ terms for movie genre as a moderator.
 ...
 
 ## Repository Overview 
-
-*Include a tree diagram that illustrates the repository structure*
-
 
 ```text
 team-projects-team-4/
@@ -134,26 +108,82 @@ team-projects-team-4/
 └── team-projects-team-4.Rproj  # RStudio project file
 ```
 
-
 ## Dependencies 
 
-*Explain any tools or packages that need to be installed to run this workflow.*
+To recreate and run this repository's workflow, a recent version of R Studio is necessary.
 
-The main packages needed to run this workflow:
+The main packages needed to run this workflow in R Studio:
 
-- library(readr) - used to read selected datasets  
-- library(tidyverse) - used for data wrangling and analysis  
+- R Package: readr - used to read selected datasets  
+- R Package: tidyverse - used for data wrangling and analysis  
+
+To load these packages in R:
+
+```text
+# Load libraries
+library(readr)
+library(tidyverse)
+
+```
+
 
 ## Running Instructions 
 
 *Provide step-by-step instructions that have to be followed to run this workflow.*
 
-...
+To run this repository's workflow, you first need to clone the GitHub repository.
 
+#### Step 1: Cloning this repository
+Using Command Prompt on Windows/ Terminal on Mac, clone this repository:
+
+```text
+Git clone https://github.com/course-dprep/Team4_MovieLength_AudienceScore.git
+
+```
+After cloning the repository, the necessary folders will be copied to your pc/laptop.  
+
+#### Step 2: Downloading the data files
+
+Next, after opening the data folder, you will run into an R script file named "download-data.R".
+The first lines of code will allow you to create a new folder to store the raw datasets, followed by code
+to then download the datasets:
+
+```text
+
+# Create raw data folder
+dir.create("data/raw", showWarnings = FALSE, recursive = TRUE)
+
+# Download data files
+
+download.file("https://datasets.imdbws.com/title.basics.tsv.gz","data/raw/title.basics.tsv.gz")
+
+download.file("https://datasets.imdbws.com/title.ratings.tsv.gz","data/raw/title.ratings.tsv.gz")
+
+
+```
+#### Step 3: loading packages, reading datafiles
+Finally, the appropriate packages need to be loaded and the datafiles need to be read in R Studio.
+
+```text
+
+# Load libraries
+library(readr)
+library(tidyverse)
+
+
+# Read data
+
+title.basics  <- read_tsv("data/raw/title.basics.tsv.gz", na = "\\N")
+title.ratings <- read_tsv("data/raw/title.ratings.tsv.gz", na = "\\N")
+
+```
+
+After following these three steps, any interested people should be able
+to recreate, or further analyse the IMDB datasets appropriately.
 
 
 ## About 
 
 This project is set up as part of the Master's course [Data Preparation & Workflow Management](https://dprep.hannesdatta.com/) at the [Department of Marketing](https://www.tilburguniversity.edu/about/schools/economics-and-management/organization/departments/marketing), [Tilburg University](https://www.tilburguniversity.edu/), the Netherlands.
 
-The project is implemented by team 4, members: < insert member details>
+The project is implemented by team 4, members: <Dalyl Lachkar, ...>
