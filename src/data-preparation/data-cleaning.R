@@ -5,11 +5,10 @@
 library(readr)
 library(tidyverse)
 
-
 # Read data
 
-title.basics  <- read_tsv("data/raw/title.basics.tsv.gz", na = "\\N")
-title.ratings <- read_tsv("data/raw/title.ratings.tsv.gz", na = "\\N")
+title.basics  <- read_tsv("../../data/raw/title.basics.tsv.gz", na = "\\N")
+title.ratings <- read_tsv("../../data/raw/title.ratings.tsv.gz", na = "\\N")
 
 # Overview of titleTypes
 # 
@@ -80,4 +79,8 @@ IMDB_long <- IMDB_movies %>%
   ) %>%
   filter(has_genre == 1) %>%
   mutate(genre = str_remove(genre, "^genre_"))
+
+
+write_csv(IMDB_long, "../../gen/temp/imdb_long.csv")
+
 
