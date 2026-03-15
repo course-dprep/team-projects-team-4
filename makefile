@@ -8,3 +8,8 @@ data-preparation:
 
 analysis: data-preparation
 	$(MAKE) -C src/analysis
+
+
+clean:
+		R -e "unlink('data', recursive = TRUE)"
+		R -e "unlink('gen', recursive = TRUE)"
