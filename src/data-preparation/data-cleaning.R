@@ -34,53 +34,36 @@ IMDB_movies <- IMDB_movies %>%
          numVotes > 100) %>%
   select(-titleType, -isAdult, -startYear, -endYear)
 
-# Splitting genres
-IMDB_movies <- IMDB_movies %>% 
-  separate_rows(genres, sep = ",") %>% 
-  mutate(value = 1) %>% 
-  pivot_wider(names_from = genres,
-              values_from = value,
-              values_fill = 0,
-              names_prefix = "genre_")
+# Step 1: Split genres into individual rows for counting
+genre_split <- IMDB_movies %>%
+  select(tconst, genres) %>%
+  separate_rows(genres, sep = ",")
 
-#Identifying genres and counting frequency of each genre
-genre_cols <- grep("^genre_", names(IMDB_movies), value = TRUE)
+# Step 2: Identify the top 10 most frequent genres
+top10_genres <- genre_split %>%
+  count(genres, sort = TRUE) %>%
+  slice_head(n = 10) %>%
+  pull(genres)
 
-genre_frequency <- sort(colSums(IMDB_movies[genre_cols]), decreasing = TRUE)
+cat("Top 10 genres:\n")
+print(top10_genres)
 
-genre_frequency
-
-# % of frequency of each genre
-genre_percentage <- genre_frequency / nrow(IMDB_movies) * 100
-
-genre_percentage <- round(genre_percentage, 1)
-
-genre_percentage
-
-
-# Removing genres with frequency < 1%
-
-genres_to_remove <- names(genre_percentage[genre_percentage < 1])
-genres_to_remove
-
-IMDB_movies <- IMDB_movies %>%
-  select(-all_of(genres_to_remove))
-
-
-# # Identify remaining genre columns
-genre_cols_kept <- grep("^genre_", names(IMDB_movies), value = TRUE)
-
-# Convert to long format for plotting
-IMDB_long <- IMDB_movies %>%
-  pivot_longer(
-    cols = all_of(genre_cols_kept),
-    names_to = "genre",
-    values_to = "has_genre"
+# Step 3 & 4: For each movie, count how many of its genres are in the top 10.
+#              Keep only movies where exactly 1 genre is in the top 10.
+IMDB_filtered <- IMDB_movies %>%
+  mutate(
+    top_genres_list = map(str_split(genres, ","), ~ intersect(.x, top10_genres)),
+    n_top = map_int(top_genres_list, length)
   ) %>%
-  filter(has_genre == 1) %>%
-  mutate(genre = str_remove(genre, "^genre_"))
+  filter(n_top == 1)
 
+cat("Movies with exactly 1 top-10 genre:", nrow(IMDB_filtered), "\n")
 
-write_csv(IMDB_long, "../../gen/temp/imdb_long.csv")
-write_csv(IMDB_movies, "../../gen/temp/imdb_movies.csv")
+# Step 5: Create the top_genre column and clean up helper columns
+IMDB_filtered <- IMDB_filtered %>%
+  mutate(top_genre = map_chr(top_genres_list, 1)) %>%
+  select(-top_genres_list, -n_top)
+
+# Write filtered dataset
+write_csv(IMDB_filtered, "../../gen/temp/imdb_filtered.csv")
 
