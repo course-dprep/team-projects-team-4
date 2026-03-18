@@ -1,10 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-5U7Jn2O)
-> **Important:** This is a template repository to help you set up your team project.  
->  
-> You are free to modify it based on your needs. For example, if your data is downloaded using *multiple* scripts instead of a single one (as shown in `\data\`), structure the code accordingly. The same applies to all other starter files—adapt or remove them as needed.  
->  
-> Feel free to delete this text.
-
 
 # Does movie length matter? The relationship between film length and audience score between genres.
 
@@ -29,7 +22,7 @@ In addition, theories related to cognitive load and information processing sugge
 *- What is the relationship between running time (IV) and audience ratings (DV) in movies, and how does this differ between movie genres?*
 
 ## Data
-To examine the research question, two publicly available datasets from the IMBD website
+To examine the research question, two publicly available datasets from the IMDB website
 were utilized and later merged.
 
 The data sets used:  
@@ -43,7 +36,7 @@ where missing values for genre's and audience ratings were filtered out.
 
 <br>
 
-- Include a table of variable description/operstionalisation.
+- Include a table of variable description/operationalisation.
 
 
 The main variables that will be examined:
@@ -55,12 +48,12 @@ The main variables that will be examined:
 
 ## Method
 
-For data preparation, datawrangling principles were administered. Firstly the dataset title.basics.tsv.gz 
+For data preparation, data wrangling principles were administered. Firstly the dataset title.basics.tsv.gz 
 was filtered to only include movie titles, thereby excluding other included film-types in the dataset such 
 as tv-shows and short-films. Next, the dataset title.ratings.tsv.gz was merged.
 This merged dataset was structured in ascending order of release year.  
 
-Moreover, next to flitering for missing values for genre and audience scores, the observations were filtered to
+Moreover, next to filtering for missing values for genre and audience scores, the observations were filtered to
 have a running time of up to 360 minutes and a minimum number of 100 recorded audience votes.
 
 <br>
@@ -80,16 +73,15 @@ terms for movie genre as a moderator.
 ...
 
 ## Repository Overview 
-
 ```text
-team-projects-team-4/
+genre-runtime-effect/
 │
 ├── data/                    # Data-related scripts and raw data handling
-│   └── download-data.R      # Script to download and store raw datasets
+│   └── placeholder.txt      # Placeholder until data is downloaded
 │
 ├── reporting/               # Final report and application files
 │   ├── report.Rmd           # Main analysis report
-│   └── start_app.R          # Possible ption to run the report using a Shiny app
+│   └── start_app.R          # Option to run the report using a Shiny app
 │
 ├── src/                     # Source code
 │   ├── analysis/            # Statistical modeling and analysis scripts
@@ -99,10 +91,9 @@ team-projects-team-4/
 │       └── data-cleaning.R  # Data cleaning script
 │
 ├── README.md                # Project documentation
-├── README.html              # Rendered version of README
 ├── makefile                 # Workflow automation
 ├── .gitignore               # Files excluded from version control
-└── team-projects-team-4.Rproj  # RStudio project file
+└── genre-runtime-effect.Rproj  # RStudio project file
 ```
 
 ## Dependencies 
@@ -134,7 +125,7 @@ To run this repository's workflow, you first need to clone the GitHub repository
 Using Command Prompt on Windows/ Terminal on Mac, clone this repository:
 
 ```text
-Git clone https://github.com/course-dprep/Team4_MovieLength_AudienceScore.git
+git clone https://github.com/course-dprep/genre-runtime-effect.git
 
 ```
 After cloning the repository, the necessary folders will be copied to your pc/laptop.  
@@ -183,4 +174,4 @@ to recreate, or further analyse the IMDB datasets appropriately.
 
 This project is set up as part of the Master's course [Data Preparation & Workflow Management](https://dprep.hannesdatta.com/) at the [Department of Marketing](https://www.tilburguniversity.edu/about/schools/economics-and-management/organization/departments/marketing), [Tilburg University](https://www.tilburguniversity.edu/), the Netherlands.
 
-The project is implemented by team 4, members: <Dalyl Lachkar, ...>
+The project is implemented by Team 4, members: Dalyl Lachkar, Ahmad Meirghadam, Francesca Stoica, Youri Vandenbussche, Wanja Koekman
