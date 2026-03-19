@@ -10,13 +10,6 @@ library(tidyverse)
 title.basics  <- read_tsv("../../data/raw/title.basics.tsv.gz", na = "\\N")
 title.ratings <- read_tsv("../../data/raw/title.ratings.tsv.gz", na = "\\N")
 
-# Overview of titleTypes
-# 
-# title.basics %>%
-#   group_by(titleType) %>%
-#   summarise(count = n()) %>%
-#   arrange(desc(count))
-
 # Select movies only
 title.basics_movies <- filter(title.basics, titleType == "movie")
 
@@ -63,6 +56,10 @@ cat("Movies with exactly 1 top-10 genre:", nrow(IMDB_filtered), "\n")
 IMDB_filtered <- IMDB_filtered %>%
   mutate(top_genre = map_chr(top_genres_list, 1)) %>%
   select(-top_genres_list, -n_top)
+  
+
+# Step 6:) Convert top_genre to a factor for regression
+IMDB_filtered$top_genre <- as.factor(IMDB_filtered$top_genre)
 
 # Write filtered dataset
 write_csv(IMDB_filtered, "../../gen/temp/imdb_filtered.csv")

@@ -1,11 +1,10 @@
-#Variables
+# Variables
 TEMP = ../../gen/temp
 OUTPUT = ../../gen/output
 
-#Target
-all: $(OUTPUT)/analysis_report.pdf
+# Targets
+all: $(OUTPUT)/lm_main.rds $(OUTPUT)/lm_interaction.rds $(OUTPUT)/anova_result.rds $(OUTPUT)/interaction_terms.rds $(OUTPUT)/model_comparison.csv $(OUTPUT)/interaction_plot.png $(OUTPUT)/descriptive_stats.csv
 
-#Step 1: analysis
-$(OUTPUT)/analysis_report.pdf: analysis.R $(TEMP)/imdb_filtered.csv
-		R -e "dir.create('$(OUTPUT)', recursive=TRUE)"
-		Rscript analysis.R
+# Analysis
+$(OUTPUT)/lm_main.rds $(OUTPUT)/lm_interaction.rds $(OUTPUT)/anova_result.rds $(OUTPUT)/interaction_terms.rds $(OUTPUT)/model_comparison.csv $(OUTPUT)/interaction_plot.png $(OUTPUT)/descriptive_stats.csv: analysis.R $(TEMP)/imdb_filtered.csv
+	Rscript analysis.R

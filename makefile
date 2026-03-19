@@ -1,7 +1,4 @@
-# This makefile will be used to automate the
-# different steps in your project.
-
-all: data-preparation analysis
+all: data-preparation analysis report
 
 data-preparation:
 	$(MAKE) -C src/data-preparation
@@ -9,7 +6,9 @@ data-preparation:
 analysis: data-preparation
 	$(MAKE) -C src/analysis
 
+report: analysis
+	$(MAKE) -C reporting
 
 clean:
-		R -e "unlink('data', recursive = TRUE)"
-		R -e "unlink('gen', recursive = TRUE)"
+	R -e "unlink('data', recursive = TRUE)"
+	R -e "unlink('gen', recursive = TRUE)"

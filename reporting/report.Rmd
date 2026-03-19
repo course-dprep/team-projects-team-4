@@ -1,2 +1,75 @@
-# You can use this file (or similar ones) to work on a report. 
-# Of course, you need to replace them with actual RMarkdown files eventually.
+---
+title: "The Effect of Runtime and Genre on IMDB Ratings"
+author: "Team Name"
+date: "`r Sys.Date()`"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(knitr)
+library(readr)
+library(broom)
+library(pandoc)
+output_dir <- "../gen/output"
+```
+
+## Introduction
+
+*TODO*
+
+## Descriptive Statistics
+
+The table below summarizes the number of movies, average rating, and average runtime for each genre in our dataset.
+```{r desc-stats}
+descriptive_stats <- read_csv(file.path(output_dir, "descriptive_stats.csv"))
+kable(descriptive_stats, caption = "Descriptive Statistics by Genre")
+```
+```{r movie-count, fig.cap="Movie Count by Genre", out.width="80%", fig.align="center"}
+knitr::include_graphics(file.path(output_dir, "movie_count.png"))
+```
+```{r ratings-genre, fig.cap="Rating Distribution by Genre", out.width="80%", fig.align="center"}
+knitr::include_graphics(file.path(output_dir, "ratings_by_genre.png"))
+```
+
+## Visual Exploration: Runtime vs. Rating by Genre
+
+The plot below shows the relationship between runtime and average rating separately for each genre.
+```{r interaction-plot, fig.cap="Runtime vs. Rating by Genre", out.width="90%", fig.align="center"}
+knitr::include_graphics(file.path(output_dir, "interaction_plot.png"))
+```
+
+## Model 1: Main Effects
+
+```{r lm-main}
+lm_main <- readRDS(file.path(output_dir, "lm_main.rds"))
+kable(tidy(lm_main, conf.int = TRUE), digits = 4, caption = "Main Effects Model Coefficients")
+kable(glance(lm_main), digits = 4, caption = "Main Effects Model Summary")
+```
+
+## Model 2: Interaction Effects
+
+```{r lm-interaction}
+lm_interaction <- readRDS(file.path(output_dir, "lm_interaction.rds"))
+kable(tidy(lm_interaction, conf.int = TRUE), digits = 4, caption = "Interaction Model Coefficients")
+kable(glance(lm_interaction), digits = 4, caption = "Interaction Model Summary")
+```
+
+```{r interaction-terms}
+interaction_terms <- readRDS(file.path(output_dir, "interaction_terms.rds"))
+kable(interaction_terms, digits = 4, caption = "Runtime × Genre Interaction Terms")
+```
+
+## Model Comparison
+
+```{r anova}
+anova_result <- readRDS(file.path(output_dir, "anova_result.rds"))
+kable(tidy(anova_result), digits = 4, caption = "ANOVA: Main Effects vs. Interaction Model")
+```
+```{r model-comparison}
+model_comparison <- read_csv(file.path(output_dir, "model_comparison.csv"))
+kable(model_comparison, digits = 4, caption = "Model Fit Comparison")
+```
+
+## Conclusion
+
+*TODO*
