@@ -1,3 +1,22 @@
-# Use this file to keep certain files from being versioned (covered in the GitHub part of the course).
+# Use this file to keep certain files from being versioned
 
+# R specific
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Raw data files (can be re-downloaded via download-data.R)
+data/raw/
+
+# Large compressed data files
+*.tsv.gz
+*.tsv
+
+# Generated output files
+README.html
+
+# OS files
 .DS_Store
+Thumbs.db
+
