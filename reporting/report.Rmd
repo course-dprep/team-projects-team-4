@@ -9,13 +9,19 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 library(knitr)
 library(readr)
 library(broom)
-library(pandoc)
 output_dir <- "../gen/output"
 ```
 
 ## Introduction
 
 *TODO*
+
+## Overall Statistics
+The table below provides overall summary statistics for the movies in our dataset, including the total number of movies, average rating, and average runtime.
+```{r overall-stats}
+overall_stats <- read_csv(file.path(output_dir, "overall_stats.csv"))
+kable(overall_stats, caption = "Overall Statistics")
+```
 
 ## Descriptive Statistics
 
