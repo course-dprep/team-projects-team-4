@@ -1,13 +1,13 @@
 all: data-preparation analysis report
 
 data-preparation:
-	$(MAKE) -C src/data-preparation
+	make -C src/data-preparation
 
 analysis: data-preparation
-	$(MAKE) -C src/analysis
+	make -C src/analysis
 
 report: analysis
-	$(MAKE) -C reporting
+	make -C reporting
 
 clean:
 	R -e "unlink('data', recursive = TRUE)"
