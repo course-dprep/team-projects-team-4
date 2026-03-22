@@ -1,0 +1,138 @@
+---
+title: "Data exploration"
+author: "Team 4"
+date: "2026-03-22"
+output: pdf_document
+---
+
+# Setup 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+*In this section, we configure the R Markdown environment. Setting 'echo = TRUE' ensures that all code is shown in the final report, which improves transparency and reproducibility.*
+
+# Data download
+
+## Create raw data folder
+This part of the report prepares the project structure by creating a folder for raw data.
+```{r Create raw data folder}
+dir.create("../../data/raw", showWarnings = FALSE, recursive = TRUE)
+```
+*We create a dedicated folder to store raw data files. Keeping raw data separate from processed data helps maintain a clear and reproducible workflow.*
+
+## Download data files
+The data files used are obtained from the internet, this code automatically downloads them.
+```{r Create raw data folder}
+urls <- c("https://datasets.imdbws.com/title.basics.tsv.gz",
+          "https://datasets.imdbws.com/title.ratings.tsv.gz")
+
+for (url in urls) {
+  filename <- basename(url)
+  download.file(url, file.path("../../data/raw", filename))}
+```
+*Automating the download ensures that anyone running this report can easily obtain the same data, improving reproducibility.*
+
+# Data cleaning
+In this section, we prepare the data for analysis by loading, filtering, and transforming it.
+
+## Load libraries
+```{r Load libraries}
+library(readr)
+library(tidyverse)
+```
+*We load the required packages for data manipulation and reading files. The tidyverse is used for efficient and readable data transformation.*
+
+## Read data
+``` {r Read data}
+title.basics  <- read_tsv("../../data/raw/title.basics.tsv.gz", na = "\\N")
+title.ratings <- read_tsv("../../data/raw/title.ratings.tsv.gz", na = "\\N")
+```
+*The datasets are read into R. The value "\\N" is treated as missing (NA), which is common in IMDb datasets.*
+
+## Select movies only
+```{r Only select movies}
+title.basics_movies <- filter(title.basics, titleType == "movie")
+```
+*We filter the dataset to include only movies, excluding other content types such as series or episodes to keep the analysis focused.*
+
+## Merge datasets
+``` {r Merging the title.basics and title.ratings datasets}
+  IMDB_movies <- left_join(title.basics_movies, title.ratings, by = "tconst")
+```
+*We filter the dataset to include only movies, excluding other content types such as series or episodes to keep the analysis focused.*
+
+# Clean and filter data
+```{r Clean and filter data}
+IMDB_movies <- IMDB_movies %>%
+  filter(!is.na(genres),
+         runtimeMinutes <= 360,
+         !is.na(averageRating),
+         numVotes > 100) %>%
+  select(-titleType, -isAdult, -startYear, -endYear)
+```
+*We remove missing values and unrealistic observations (e.g., very long runtimes). Movies with very few votes are excluded to improve the reliability of ratings. Irrelevant columns are dropped to simplify the dataset.*
+
+## Identify top 10 genres
+*By focusing on the top 10 most frequent genres, we reduce complexity in the dataset and ensure sufficient observations per category. This makes the analysis more robust and results easier to interpret, as less common genres are excluded.*
+
+### Step 1: Split genres into individual rows for counting
+```{r Step 1}
+genre_split <- IMDB_movies %>%
+  select(tconst, genres) %>%
+  separate_rows(genres, sep = ",")
+```
+*Genres are split into separate rows because movies can have multiple genres. This allows us to count how often each genre appears and identify the 10 most common ones.*
+  
+
+### Step 2: Identify the top 10 most frequent genres
+```{r Step 2}
+top10_genres <- genre_split %>%
+  count(genres, sort = TRUE) %>%
+  slice_head(n = 10) %>%
+  pull(genres)
+
+cat("Top 10 genres:\n")
+print(top10_genres)
+```
+
+### Step 3 & 4: For each movie, count how many of its genres are in the top 10.
+```{r Step 3 & 4}
+IMDB_filtered <- IMDB_movies %>%
+  mutate(
+    top_genres_list = map(str_split(genres, ","), ~ intersect(.x, top10_genres)),
+    n_top = map_int(top_genres_list, length)
+  ) %>%
+  filter(n_top == 1)
+
+cat("Movies with exactly 1 top-10 genre:", nrow(IMDB_filtered), "\n")
+```
+*We keep only movies that belong to exactly one of the top 10 genres. This simplifies analysis by avoiding overlap between multiple major genres.*
+
+### Step 5: Create the top_genre column and clean up helper columns
+```{r Step 5}
+IMDB_filtered <- IMDB_filtered %>%
+  mutate(top_genre = map_chr(top_genres_list, 1)) %>%
+  select(-top_genres_list, -n_top)
+```
+*We extract the single dominant genre into a new variable, making it easier to use in analysis and modeling.*  
+
+### Step 6: Convert top_genre to a factor for regression
+```{r Step 6}
+IMDB_filtered$top_genre <- as.factor(IMDB_filtered$top_genre)
+```
+*The genre variable is converted to a factor, which is required for many statistical models and analyses.*
+
+### Step 7: Mean-center the runtimeMinutes variable
+```{r Step 7}
+IMDB_filtered <- IMDB_filtered %>%
+  mutate(m_runtime = runtimeMinutes - mean(runtimeMinutes, na.rm = TRUE))
+```
+*Mean-centering the runtime variable improves interpretability in regression models and reduces multicollinearity.*
+
+
+# Save cleaned dataset
+```{r Save cleaned dataset}
+write_csv(IMDB_filtered, "../../gen/temp/imdb_filtered.csv")
+```
+*The cleaned dataset is saved for further analysis, ensuring that preprocessing does not need to be repeated.*
