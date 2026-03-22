@@ -58,8 +58,13 @@ IMDB_filtered <- IMDB_filtered %>%
   select(-top_genres_list, -n_top)
   
 
-# Step 6:) Convert top_genre to a factor for regression
+# Step 6: Convert top_genre to a factor for regression
 IMDB_filtered$top_genre <- as.factor(IMDB_filtered$top_genre)
+
+# Step 7: Mean-center the runtimeMinutes variable
+
+IMDB_filtered <- IMDB_filtered %>%
+  mutate(m_runtime = runtimeMinutes - mean(runtimeMinutes, na.rm = TRUE))
 
 # Write filtered dataset
 write_csv(IMDB_filtered, "../../gen/temp/imdb_filtered.csv")

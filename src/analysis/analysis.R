@@ -1,6 +1,6 @@
 # analysis.R
-# Visual checks + linear models for runtime, genre, and runtime×genre moderation
-# Outputs a PDF report to ../../gen/output/
+# Visual checks + linear models for m_runtime, genre, and m_runtime×genre moderation
+# Outputs an HTML report to ../../gen/output/
 
 library(readr)
 library(tidyverse)
@@ -18,13 +18,13 @@ dir.create("../../gen/output", showWarnings = FALSE, recursive = TRUE)
 
 # 4) Linear models
 
-# Model 1: Runtime + top_genre (main effects only)
-lm_main <- lm(averageRating ~ runtimeMinutes + top_genre, data = IMDB_filtered)
+# Model 1: Mean-centered Runtime + top_genre (main effects only)
+lm_main <- lm(averageRating ~ m_runtime + top_genre, data = IMDB_filtered)
 summary(lm_main)
 saveRDS(lm_main, "../../gen/output/lm_main.rds")
 
-# Model 2: Runtime × top_genre (main effects + interaction)
-lm_interaction <- lm(averageRating ~ runtimeMinutes * top_genre, data = IMDB_filtered)
+# Model 2: Mean-centered Runtime × top_genre (main effects + interaction)
+lm_interaction <- lm(averageRating ~ m_runtime * top_genre, data = IMDB_filtered)
 summary(lm_interaction)
 saveRDS(lm_interaction, "../../gen/output/lm_interaction.rds")
 
@@ -39,9 +39,9 @@ model_comparison <- broom::glance(lm_main) %>%
   mutate(model = c("main", "interaction"))
 write_csv(model_comparison, "../../gen/output/model_comparison.csv")
 
-# Compact table of runtime + runtime×genre terms from lm_interaction
+# Compact table of mean-centered runtime + mean-centered runtime×genre terms from lm_interaction
 interaction_terms <- tidy(lm_interaction, conf.int = TRUE) %>%
-  filter(term == "runtimeMinutes" | str_detect(term, "^runtimeMinutes:top_genre")) %>%
+  filter(term == "m_runtime" | str_detect(term, "^m_runtime:top_genre")) %>%
   arrange(desc(abs(estimate)))
 saveRDS(interaction_terms, "../../gen/output/interaction_terms.rds")
 
@@ -58,6 +58,21 @@ interaction_plot <- ggplot(IMDB_filtered, aes(x = runtimeMinutes, y = averageRat
   theme_minimal()
 
 ggsave("../../gen/output/interaction_plot.png", interaction_plot, width = 10, height = 7)
+
+
+# Overall descriptive statistics
+overall_stats <- IMDB_filtered %>%
+  summarise(
+    n = n(),
+    mean_rating = round(mean(averageRating, na.rm = TRUE), 2),
+    median_rating = round(median(averageRating, na.rm = TRUE), 2),
+    sd_rating = round(sd(averageRating, na.rm = TRUE), 2),
+    mean_runtime = round(mean(runtimeMinutes, na.rm = TRUE), 1),
+    median_runtime = round(median(runtimeMinutes, na.rm = TRUE), 1),
+    sd_runtime = round(sd(runtimeMinutes, na.rm = TRUE), 1),
+    n_genres = n_distinct(top_genre)
+  )
+write_csv(overall_stats, "../../gen/output/overall_stats.csv")
 
 # Descriptive statistics table by genre
 descriptive_stats <- IMDB_filtered %>%
