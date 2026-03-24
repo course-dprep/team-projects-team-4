@@ -144,58 +144,31 @@ tinytex::install_tinytex()
 
 ## Running Instructions 
 
-*Provide step-by-step instructions that have to be followed to run this workflow.*
-
 To run this repository's workflow, you first need to clone the GitHub repository.
 
 #### Step 1: Cloning this repository
 Using Command Prompt on Windows/ Terminal on Mac, clone this repository:
-
 ```text
 git clone https://github.com/course-dprep/genre-runtime-effect.git
-
+cd genre-runtime-effect
 ```
-After cloning the repository, the necessary folders will be copied to your pc/laptop.  
 
-#### Step 2: Downloading the data files
-
-Next, after opening the data folder, you will run into an R script file named "download-data.R".
-The first lines of code will allow you to create a new folder to store the raw datasets, followed by code
-to then download the datasets:
-
+#### Step 2: Running the entire pipeline
+Run the full workflow (download data, clean, analyze, and generate the PDF report) with a single command:
 ```text
-
-# Create raw data folder
-dir.create("data/raw", showWarnings = FALSE, recursive = TRUE)
-
-# Download data files
-
-download.file("https://datasets.imdbws.com/title.basics.tsv.gz","data/raw/title.basics.tsv.gz")
-
-download.file("https://datasets.imdbws.com/title.ratings.tsv.gz","data/raw/title.ratings.tsv.gz")
-
-
+make
 ```
-#### Step 3: loading packages, reading datafiles
-Finally, the appropriate packages need to be loaded and the datafiles need to be read in R Studio.
 
+This will execute all steps in the correct order: data preparation → analysis → report generation.
+
+#### Step 3: Cleaning up generated files
+To remove all generated output files (the `gen/` and `data/` folders), run:
 ```text
-
-# Load libraries
-library(readr)
-library(tidyverse)
-
-
-# Read data
-
-title.basics  <- read_tsv("data/raw/title.basics.tsv.gz", na = "\\N")
-title.ratings <- read_tsv("data/raw/title.ratings.tsv.gz", na = "\\N")
-
+make clean
 ```
 
-After following these three steps, any interested people should be able
+After following these steps, any interested people should be able
 to recreate, or further analyse the IMDB datasets appropriately.
-
 
 ## About 
 
