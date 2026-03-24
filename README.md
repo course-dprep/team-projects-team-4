@@ -31,8 +31,7 @@ The data sets used:
 
 <br>
 
-After merging, the final dataset contains approximately 140.000 observations after filtering for movies, their running time (<=360 minutes) and number of votes (>100),
-where missing values for genre's and audience ratings were filtered out.
+After merging, the final dataset contains 63619 observations after filtering for movies, their running time (<=360 minutes) and number of votes (>100), where missing values for genre's and audience ratings were filtered out.
 
 <br>
 
@@ -144,31 +143,23 @@ tinytex::install_tinytex()
 
 ## Running Instructions 
 
+*Provide step-by-step instructions that have to be followed to run this workflow.*
+
 To run this repository's workflow, you first need to clone the GitHub repository.
 
 #### Step 1: Cloning this repository
 Using Command Prompt on Windows/ Terminal on Mac, clone this repository:
+
 ```text
 git clone https://github.com/course-dprep/genre-runtime-effect.git
-cd genre-runtime-effect
+
 ```
+After cloning the repository, the necessary folders will be copied to your pc/laptop.  
 
-#### Step 2: Running the entire pipeline
-Run the full workflow (download data, clean, analyze, and generate the PDF report) with a single command:
-```text
-make
-```
+#### Step 2: Downloading the data files
 
-This will execute all steps in the correct order: data preparation → analysis → report generation.
 
-#### Step 3: Cleaning up generated files
-To remove all generated output files (the `gen/` and `data/` folders), run:
-```text
-make clean
-```
 
-After following these steps, any interested people should be able
-to recreate, or further analyse the IMDB datasets appropriately.
 
 ## About 
 
