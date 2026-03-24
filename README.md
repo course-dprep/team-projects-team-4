@@ -62,15 +62,7 @@ As for the method of analysis, Multiple Linear Regression (MLR) with interaction
 MLR is an appropriate analysis method for a continuous IV and DV, allowing examination of interaction
 terms for movie genre as a moderator.
 
-## Preview of Findings 
-- Describe the gist of your findings (save the details for the final paper!)
-...
 
-- How are the findings/end product of the project deployed?
-...
-
-- Explain the relevance of these findings/product. 
-...
 
 ## Repository Overview 
 ```text
@@ -95,6 +87,13 @@ genre-runtime-effect/
 ├── .gitignore               # Files excluded from version control
 └── genre-runtime-effect.Rproj  # RStudio project file
 ```
+## Preview of Findings
+
+The analysis reveals that movie runtime has a small but significant positive effect on audience ratings overall.  Longer movies tend to get a slightly higher rating. However, the relationship differs based on genres.For example, Thriller films benefit the most from longer runtimes, compared to Comedy or Adventure films that tend to receive lower ratings as runtime increases. Drama and Horror films show no significant interaction with runtime.
+
+The findings are deployed as a reproducible HTML report generated with RMarkdown, which includes regression tables, visualizations of interaction effects, and clear interpretations of the results.
+
+These findings are relevant for filmmakers, editors, and streaming platforms, as they suggest that the runtime for a movie is not universal but depends heavily on genre. Understanding these can help professionals take informed decisions regarding their productions.
 
 ## Dependencies 
 
@@ -111,6 +110,10 @@ To load these packages in R:
 # Load libraries
 library(readr)
 library(tidyverse)
+
+In addition, **Pandoc** is required to render the RMarkdown report to HTML. Pandoc can be downloaded from:
+
+- **Windows (recommended version 3.9.0.2)**: https://github.com/jgm/pandoc/releases/tag/3.9.0.2
 
 ```
 
