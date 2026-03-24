@@ -69,29 +69,34 @@ terms for movie genre as a moderator.
 genre-runtime-effect/
 │
 ├── data/                    # Data-related scripts and raw data handling
-│   └── placeholder.txt      # Placeholder until data is downloaded
+│   ├── placeholder.txt      # Placeholder until data is downloaded
+│   └── raw/                 # Raw downloaded datasets
 │
 ├── reporting/               # Final report and application files
 │   ├── report.Rmd           # Main analysis report
-│   └── start_app.R          # Option to run the report using a Shiny app
+│   ├── group project Dprep week 3.Rmd  # Initial research proposal
+│   ├── start_app.R          # Option to run the report using a Shiny app
+│   └── makefile             # Makefile for rendering the report
 │
 ├── src/                     # Source code
 │   ├── analysis/            # Statistical modeling and analysis scripts
-│   │   └── analysis.R       # Main analysis script
+│   │   ├── analysis.R       # Main analysis script
+│   │   └── makefile         # Makefile for running the analysis
 │   │
 │   └── data-preparation/    # Data cleaning and preparation scripts
-│       └── data-cleaning.R  # Data cleaning script
+│       ├── download-data.R  # Script to download raw data
+│       ├── data-cleaning.R  # Data cleaning script
+│       └── makefile         # Makefile for data preparation
 │
 ├── README.md                # Project documentation
-├── makefile                 # Workflow automation
-├── .gitignore               # Files excluded from version control
-└── genre-runtime-effect.Rproj  # RStudio project file
+├── makefile                 # Main workflow automation
+└── .gitignore               # Files excluded from version control
 ```
 ## Preview of Findings
 
 The analysis reveals that movie runtime has a small but significant positive effect on audience ratings overall.  Longer movies tend to get a slightly higher rating. However, the relationship differs based on genres.For example, Thriller films benefit the most from longer runtimes, compared to Comedy or Adventure films that tend to receive lower ratings as runtime increases. Drama and Horror films show no significant interaction with runtime.
 
-The findings are deployed as a reproducible HTML report generated with RMarkdown, which includes regression tables, visualizations of interaction effects, and clear interpretations of the results.
+The findings are deployed as a reproducible PDF report generated with RMarkdown, which includes regression tables, visualizations of interaction effects, and clear interpretations of the results.
 
 These findings are relevant for filmmakers, editors, and streaming platforms, as they suggest that the runtime for a movie is not universal but depends heavily on genre. Understanding these can help professionals take informed decisions regarding their productions.
 
@@ -101,8 +106,12 @@ To recreate and run this repository's workflow, a recent version of R Studio is 
 
 The main packages needed to run this workflow in R Studio:
 
-- R Package: readr - used to read selected datasets  
-- R Package: tidyverse - used for data wrangling and analysis  
+- R Package: readr - used to read selected datasets
+- R Package: tidyverse - used for data wrangling and analysis
+- R Package: ggplot2 - used for creating visualizations
+- R Package: broom - used for tidying model outputs
+- R Package: knitr - used for rendering tables in the report
+- R Package: rmarkdown - used for rendering the RMarkdown report
 
 To load these packages in R:
 
@@ -110,11 +119,26 @@ To load these packages in R:
 # Load libraries
 library(readr)
 library(tidyverse)
+library(ggplot2)
+library(broom)
+library(knitr)
+library(rmarkdown)
+```
 
-In addition, **Pandoc** is required to render the RMarkdown report to HTML. Pandoc can be downloaded from:
+In addition, **make** is required to run the automated workflow. It can be installed via:
+
+- **Windows**: install from https://gnuwin32.sourceforge.net/packages/make.htm
+- **Mac**: available via Xcode Command Line Tools (`xcode-select --install`)
+
+**Pandoc** is required to render the RMarkdown report to PDF. Pandoc can be downloaded from:
 
 - **Windows (recommended version 3.9.0.2)**: https://github.com/jgm/pandoc/releases/tag/3.9.0.2
 
+A **LaTeX distribution** is also required for PDF rendering. The easiest option is to install TinyTeX from R:
+
+```text
+install.packages("tinytex")
+tinytex::install_tinytex()
 ```
 
 

@@ -1,6 +1,6 @@
 # analysis.R
 # Visual checks + linear models for m_runtime, genre, and m_runtime×genre moderation
-# Outputs an HTML report to ../../gen/output/
+# Outputs a PDF report to ../../gen/output/
 
 library(readr)
 library(tidyverse)

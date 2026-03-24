@@ -152,4 +152,4 @@ The final report will be deployed as a reproducible PDF document generated throu
 
 The report will include regression tables, graphical visualizations of interaction effects, and clear interpretations of coefficients. By integrating code and output within the same document, the analysis remains fully reproducible and transparent.
 
-The RMarkdown reports will be rendered as publication-ready PDF or HTML documents. To ensure clarity and readability, any non-essential code chunks and warning messages will be hidden using *echo=FALSE* and *warning=FALSE* options. This approach keeps the focus on the results and interpretation, rather than on intermediate code or messages, while maintaining full reproducibility of the analysis
+The RMarkdown reports will be rendered as publication-ready PDF documents. To ensure clarity and readability, any non-essential code chunks and warning messages will be hidden using *echo=FALSE* and *warning=FALSE* options. This approach keeps the focus on the results and interpretation, rather than on intermediate code or messages, while maintaining full reproducibility of the analysis
