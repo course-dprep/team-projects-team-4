@@ -31,7 +31,7 @@ The data sets used:
 
 <br>
 
-After merging, the final dataset contains approximately 140.000 observations after filtering for movies, their running time (<=360 minutes) and number of votes (>100),
+After merging, the final dataset contains 63.619 observations after filtering for movies, their running time (<=360 minutes) and number of votes (>100),
 where missing values for genre's and audience ratings were filtered out.
 
 <br>
