@@ -23,7 +23,7 @@ What is the relationship between running time (IV) and audience ratings (DV) in 
 
 ## Data
 
-To examine the research question, two publicly available datasets from the IMDb website were utilized: one containing general movie information and another containing audience ratings. These datasets were merged using a unique movie identifier. After merging, the dataset contains approximately 63.619 observations.
+To examine the research question, two publicly available datasets from the IMDb website were utilized: one containing general movie information and another containing audience ratings. These datasets were merged using a unique movie identifier. After merging, the dataset contains 63.619 observations.
 To improve data quality and ensure meaningful analysis, several filtering steps were applied. Only movies were included, excluding other content types such as TV shows and short films. Additionally, movies with a running time exceeding 360 minutes were removed to eliminate extreme outliers. Observations with missing values for key variables such as genre and audience ratings were excluded. Finally, only movies with at least 100 audience votes were retained to ensure that ratings are based on a sufficient number of evaluations and are therefore more reliable.
 
 ## Methods
