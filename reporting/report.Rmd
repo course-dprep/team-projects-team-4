@@ -1,6 +1,6 @@
 ---
 title: "The Effect of Runtime and Genre on IMDB Ratings"
-author: "Team Name"
+author: "Team 4"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -14,7 +14,26 @@ output_dir <- "../gen/output"
 
 ## Introduction
 
-*TODO*
+The movie industry continuously seeks to understand which factors influence audience ratings, as these ratings play a crucial role in determining a film’s commercial success, visibility, and long-term popularity. One characteristic that may influence viewers’ perceptions is running time. Longer films can provide more room for detailed storytelling, deeper character development, and more complex narratives. At the same time, they may require greater cognitive effort and a higher time commitment from the audience, which could negatively affect the viewing experience. As a result, the relationship between running time and audience ratings remains ambiguous and worth investigating.
+Previous research in media and entertainment studies suggests that structural movie characteristics, such as length and pacing, can significantly influence audience evaluations and overall satisfaction (Cini & Abela, 2025). Additionally, audience expectations are not uniform but may differ across movie genres. For example, viewers might expect longer runtimes in genres such as drama, where storytelling depth is valued, while shorter and faster-paced films may be preferred in genres like comedy, which typically require less cognitive effort. Genre-based expectation theories propose that consumers develop category-specific expectations, which in turn shape their evaluations and satisfaction levels (Jeffres, Atkin, & Neuendorf, 2023).
+
+## Research Question
+
+What is the relationship between running time (IV) and audience ratings (DV) in movies, and how does this differ between movie genres?
+
+## Data
+
+To examine the research question, two publicly available datasets from the IMDb website were utilized: one containing general movie information and another containing audience ratings. These datasets were merged using a unique movie identifier. After merging, the dataset contains approximately 140,000 observations.
+To improve data quality and ensure meaningful analysis, several filtering steps were applied. Only movies were included, excluding other content types such as TV shows and short films. Additionally, movies with a running time exceeding 360 minutes were removed to eliminate extreme outliers. Observations with missing values for key variables such as genre and audience ratings were excluded. Finally, only movies with at least 100 audience votes were retained to ensure that ratings are based on a sufficient number of evaluations and are therefore more reliable.
+
+## Methods
+
+The dataset was further prepared by focusing exclusively on movie titles and relevant variables for the analysis. A Multiple Linear Regression model with interaction terms was applied to investigate the relationship between runtime and audience ratings, and to test whether this relationship differs across genres.
+In the model, runtime serves as the independent variable, while the average audience rating is the dependent variable. Genre is included as a categorical moderator, allowing the effect of runtime on ratings to vary between different genres. By including interaction terms, the model is able to capture these genre-specific differences and provide a more nuanced understanding of how runtime influences audience evaluations.
+
+## Findings
+
+The following section presents the results of the analysis.
 
 ## Overall Statistics
 The table below provides overall summary statistics for the movies in our dataset, including the total number of movies, average rating, and average runtime.
@@ -75,7 +94,19 @@ kable(tidy(anova_result), digits = 4, caption = "ANOVA: Main Effects vs. Interac
 model_comparison <- read_csv(file.path(output_dir, "model_comparison.csv"))
 kable(model_comparison, digits = 4, caption = "Model Fit Comparison")
 ```
+## Results
+
+The results show that runtime has a statistically significant but relatively small positive effect on audience ratings overall, indicating that longer movies tend to receive slightly higher ratings on average. This suggests that, in general, audiences may appreciate the additional depth and development that longer films can offer.
+However, the relationship between runtime and ratings differs significantly across genres. Thriller films benefit the most from longer runtimes, as these films often rely on building suspense and tension over time. In contrast, genres such as Comedy, Adventure, Documentary, and Mystery show a negative relationship between runtime and ratings, meaning that longer films in these categories tend to receive lower audience evaluations. This may be due to pacing issues or the expectation that these genres should be more concise and engaging throughout.
+For Drama and Horror films, no significant interaction effect was found. This indicates that runtime does not meaningfully influence audience ratings within these genres, and that other factors, such as storytelling quality, acting, or atmosphere—may play a more important role in audience perceptions.
 
 ## Conclusion
 
-*TODO*
+Runtime has a small positive effect on audience ratings overall, indicating that longer movies are, on average, slightly better received. However, this relationship varies clearly across genres. Thriller films benefit the most from longer runtimes, while genres such as Comedy, Adventure, Documentary, and Mystery tend to receive lower ratings as runtime increases. For Drama and Horror, runtime does not have a significant impact on ratings.
+These findings suggest that there is no one-size-fits-all optimal movie length. Instead, audience expectations differ by genre, meaning that the ideal runtime depends on the type of film.
+
+## References
+
+Cini, K., & Abela, J. (2025). Forecasting film audience ratings: A natural language processing approach to script and production data. https://doi.org/10.1016/j.entcom.2025.101043
+
+Jeffres, L. W., Atkin, D. J., & Neuendorf, K. A. (2023). Audience genre expectations in the age of digital media.https://search.ebscohost.com/login.aspx?direct=true&scope=site&db=nlebk&db=nlabk&AN=3384606
