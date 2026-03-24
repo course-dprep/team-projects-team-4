@@ -15,5 +15,6 @@ $(DATA)/title.basics.tsv.gz $(DATA)/title.ratings.tsv.gz: download-data.R
 $(TEMP)/imdb_filtered.csv: data-cleaning.R $(DATA)/title.basics.tsv.gz $(DATA)/title.ratings.tsv.gz
 		R -e "dir.create('$(TEMP)', recursive=TRUE)"
 		Rscript data-cleaning.R
-		
-		
+
+clean:
+		R -e "unlink('../../gen', recursive = TRUE)"
